@@ -26,10 +26,14 @@
 project(LLPC C CXX)
 
 ### Create LLPC Library ################################################################################################
-add_library(llpc STATIC "")
+add_library(llpc SHARED "")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${XGL_LLVM_BUILD_PATH}/lib/cmake/llvm)
+include(LLVMConfig)
+# find_package(LLVM)
 
 if(ICD_BUILD_LLPC)
-    add_dependencies(llpc LLVMCore)
+
+  add_dependencies(llpc LLVMCore)
 endif()
 
 ### Cached Project Options #############################################################################################
@@ -149,8 +153,7 @@ endif()
 
 ### Defines/Includes/Sources ###########################################################################################
 if(ICD_BUILD_LLPC)
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${XGL_LLVM_BUILD_PATH}/lib/cmake/llvm)
-    include(LLVMConfig)
+
     message(STATUS "LLVM execuables: " ${LLVM_TOOLS_BINARY_DIR})
     message(STATUS "LLVM libraries: " ${LLVM_BUILD_LIBRARY_DIR})
     execute_process(
@@ -572,4 +575,3 @@ if(LLPC_BUILD_LIT)
     add_subdirectory(test)
 endif()
 endif()
-
