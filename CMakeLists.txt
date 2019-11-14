@@ -26,7 +26,7 @@
 project(LLPC C CXX)
 
 ### Create LLPC Library ################################################################################################
-add_library(llpc SHARED "")
+add_library(llpc STATIC "")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${XGL_LLVM_BUILD_PATH}/lib/cmake/llvm)
 include(LLVMConfig)
 # find_package(LLVM)
