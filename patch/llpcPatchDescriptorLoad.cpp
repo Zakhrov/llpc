@@ -515,9 +515,10 @@ Value* PatchDescriptorLoad::LoadDescriptor(
             pOffset = CastInst::CreateZExtOrBitCast(pOffset, m_pContext->Int64Ty(), "", pInsertPoint);
 
             // Get descriptor address
-            std::vector<Value*> idxs;
-            idxs.push_back(ConstantInt::get(m_pContext->Int64Ty(), 0, false));
-            idxs.push_back(pOffset);
+            Value* idxs[] = {
+                ConstantInt::get(m_pContext->Int64Ty(), 0, false),
+                pOffset
+            };
 
             Value* pDescTablePtr = nullptr;
 
@@ -665,6 +666,7 @@ Value* PatchDescriptorLoad::BuildBufferCompactDesc(
                                             "",
                                             pInsertPoint);
     }
+#ifdef LLPC_BUILD_GFX10
     else if (gfxIp.major == 10)
     {
         SqBufRsrcWord3 sqBufRsrcWord3 = {};
@@ -683,6 +685,7 @@ Value* PatchDescriptorLoad::BuildBufferCompactDesc(
                                             "",
                                             pInsertPoint);
     }
+#endif
     else
     {
         LLPC_NOT_IMPLEMENTED();
